@@ -30,3 +30,13 @@
 #define MOT_ALL_FWD                               MOT_L_FWD; MOT_R_FWD
 #define MOT_ALL_BCK                               MOT_L_BCK; MOT_R_BCK
 #define MOT_ALL_PWM(pwm, offset_R, offset_L)      MOT_R_PWM(pwm, offset_R); MOT_L_PWM(pwm, offset_L)
+
+
+/*
+ * DEFINES:
+ *
+ * ALTRO
+*/
+
+#define LEFT 0
+#define RIGHT 1
