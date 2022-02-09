@@ -1,9 +1,11 @@
+#pragma once
 /*
  * DEFINES:
  * 
  * PINS
  */
 
+// Motori
 #define AIN1                A0     // Motore L avanti
 #define AIN2                A1     // Motore L indietro
 #define PWM_L               6      // Pin di comando potenza motore L
@@ -12,6 +14,9 @@
 #define BIN1                A3     // Motore R indietro
 #define PWM_R               5      // Pin di comando potenza motore R
 
+// Ultrasonar
+#define ECHO 2
+#define TRIG 3
 
 /*
  * DEFINES:

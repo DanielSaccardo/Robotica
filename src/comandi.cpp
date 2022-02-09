@@ -13,22 +13,7 @@ void setupMotors(void)
     pinMode(BIN2, OUTPUT);
 }
 
-void motorFWD(bool side, byte power)
-{
-    if (side) // R
-    {
-       MOT_R_FWD;
-       MOT_R_PWM(power, 0); 
-    }
-
-    else // L
-    {
-        MOT_L_FWD;
-        MOT_L_PWM(power, 0); 
-    }
-}
-
-void motorFWD(bool side, byte power, byte offset)
+void motorFWD(bool side, byte power, byte offset = 0)
 {
     if (side) // R
     {
@@ -43,7 +28,7 @@ void motorFWD(bool side, byte power, byte offset)
     }
 }
 
-void motorFWD_ALL(byte power, byte offsetR, byte offsetL)
+void motorFWD_ALL(byte power, byte offsetR = 0, byte offsetL = 0)
 {
     MOT_L_FWD;
     MOT_R_FWD;
@@ -52,16 +37,7 @@ void motorFWD_ALL(byte power, byte offsetR, byte offsetL)
     MOT_R_PWM(power, offsetR);
 }
 
-void motorFWD_ALL(byte power)
-{
-    MOT_L_FWD;
-    MOT_R_FWD;
-    
-    MOT_L_PWM(power, 0); 
-    MOT_R_PWM(power, 0);
-}
-
-void motorBCK_ALL(byte power, byte offsetR, byte offsetL)
+void motorBCK_ALL(byte power, byte offsetR = 0, byte offsetL = 0)
 {
     MOT_L_BCK;
     MOT_R_BCK;
@@ -70,31 +46,7 @@ void motorBCK_ALL(byte power, byte offsetR, byte offsetL)
     MOT_R_PWM(power, offsetR);
 }
 
-void motorBCK_ALL(byte power)
-{
-    MOT_L_BCK;
-    MOT_R_BCK;
-    
-    MOT_L_PWM(power, 0); 
-    MOT_R_PWM(power, 0);
-}
-
-void motorBCK(bool side, byte power)
-{
-    if (side) // R
-    {
-       MOT_R_BCK;
-       MOT_R_PWM(power, 0); 
-    }
-
-    else // L
-    {
-        MOT_L_BCK;
-        MOT_L_PWM(power, 0); 
-    }
-}
-
-void motorBCK(bool side, byte power, byte offset)
+void motorBCK(bool side, byte power, byte offset = 0)
 {
     if (side) // R
     {
@@ -131,6 +83,22 @@ void motorStop_ALL(void)
     
     digitalWrite(BIN1, LOW); 
     digitalWrite(BIN2, LOW);
+}
+
+void motorBreak(bool side, byte power)
+{
+    motorStop(side);
+    motorBCK(side, 70);
+    delay(1);
+    motorStop(side);
+}
+
+void motorBreak_ALL(byte power)
+{
+    motorStop_ALL();
+    motorBCK_ALL(power);
+    delay(1);
+    motorStop_ALL();
 }
 
 #endif

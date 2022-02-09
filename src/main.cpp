@@ -44,67 +44,44 @@
 #include <Arduino.h>
 #include "defines.h"
 #include "comandi.h"
+#include "altre.h"
+#include "timerAVR.h"
 
+TimerAVR timer1;
 
-#define ECHO 2
-#define TRIG 3
-int Distance = 0;
-int DistanceUltra (void);
-int time = 0;
 void setup() 
 {
     setupMotors();
+    setupUltra();
 
-    pinMode (ECHO, INPUT);	// Define the ultrasonic echo input pin
-    pinMode (TRIG, OUTPUT);	// Define the ultrasonic trigger input pin 
     Serial.begin (9600);
-    Serial.print ("Sensore Ultrasuoni: ");
+    Serial.println ("Sensore Ultrasuoni: ");
 }
 
 void loop() 
 {
-    // Algoritmo per fermata in caso di ostacolo
     int distanceCM = DistanceUltra ();
     Serial.print(distanceCM);
     Serial.println ("cm");
 
-
     if (distanceCM < 17){
-        motorStop_ALL();
-        motorBCK_ALL(70);
-        delay(1);
-        motorStop_ALL();
+        motorBreak_ALL(70);
         motorFWD(LEFT, 70);
-        delay(360);
+        delay(360); // Tempo per girare di 90°
     } 
 
     else 
     {
-        motorFWD_ALL(70, 2, 0);
-        delay(10);
-        time ++;
+        motorFWD_ALL(70, 2);
+        timer1.TON(true, 3500);
     }
 
-    if (time  >= 150)
+    if (timer1.Q)
     {
         motorStop_ALL();
         motorFWD(LEFT, 70);
-        delay(360);
-        time = 0;
+        delay(360); // Tempo per girare di 90°
+        timer1.reset();
     }
     
-}
-
-int DistanceUltra (void)		// Measure the distance
-{
-  digitalWrite (TRIG, LOW);	// set trig pin low 2N<s
-  delayMicroseconds (2);
-  
-  digitalWrite (TRIG, HIGH);	// set trig pin 10N<s 10us
-  delayMicroseconds (10);
-  digitalWrite (TRIG, LOW);	// set trig pin low
-  
-  float Fdistance = pulseIn (ECHO, HIGH);	// Read echo pin high level time (us)
-  Fdistance = Fdistance / 58.31;	
-  return (int) Fdistance;
 }
