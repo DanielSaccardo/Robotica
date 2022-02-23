@@ -18,6 +18,12 @@
 #define ECHO 2
 #define TRIG 3
 
+// Trackers
+#define TS_CLOCK 13
+#define TS_ADDR 12
+#define TS_DATAOUT 11
+#define TS_CS 10
+#define N_TRACKERS 5
 /*
  * DEFINES:
  *
@@ -45,3 +51,6 @@
 
 #define LEFT 0
 #define RIGHT 1
+
+#define OLED_RESET 9    // OLED display reset pin
+#define OLED_SA0   8    // OLED display set pin
