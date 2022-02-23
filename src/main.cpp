@@ -54,6 +54,19 @@ Adafruit_SSD1306 display(OLED_RESET, OLED_SA0);
 
 #define NERO 450
 
+/***************************************
+ * NOTA:
+ * 
+ * I pin dell'Oled sono quelli dell'I2C
+ * 
+ * SDA -> pin 17
+ * 
+ * SCL -> pin 18
+ * 
+ * DA SISTEMARE IL PROGRAMMA SAPENDO CIO'
+ * 
+ ***************************************/
+
 void setup() 
 {
     setupMotors();
@@ -61,7 +74,6 @@ void setup()
     setupTrackers();
 
     Serial.begin (9600);
-    Serial.println ("Sensore Ultrasuoni: ");
 
     Wire.begin();
     display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
@@ -69,7 +81,7 @@ void setup()
     display.setTextSize(2);
     display.setTextColor(WHITE);
     display.setCursor(15,20);
-    display.println("RoboMac Junior 2020");
+    display.println("Robotica");
     display.display();
     delay(5000);
     display.clearDisplay();
@@ -87,14 +99,12 @@ void loop()
     if (trackArry[2] < NERO)
     {
         int distanceCM = DistanceUltra();
-        Serial.print(distanceCM);
-        Serial.println ("cm");
+        Serial.print ("Sensore Ultrasuoni: "); Serial.print(distanceCM); Serial.println ("cm");
 
-        if (distanceCM < 0)
+        if (distanceCM < 17)
         {
             motorBreak_ALL(70);
-            motorFWD(LEFT, 70);
-            delay(360); // Tempo per girare di 90°
+            motorFWD(MOT_LEFT, 70);
         }
         else
             motorFWD_ALL(30);
@@ -103,37 +113,37 @@ void loop()
 
     if (trackArry[0] < NERO && trackArry[1] < NERO) // ANGOLO
     {
-        motorFWD(LEFT, 10);
-        motorFWD(RIGHT, 50);
+        motorFWD(MOT_LEFT, 10);
+        motorFWD(MOT_RIGHT, 50);
     }
 
     if (trackArry[4] < NERO && trackArry[3] < NERO) // ANGOLO
     {
-        motorFWD(RIGHT, 10);
-        motorFWD(LEFT, 50);
+        motorFWD(MOT_RIGHT, 10);
+        motorFWD(MOT_LEFT, 50);
     }
 
     if (trackArry[0] < NERO) // Gira Sinistra di più
     {
-        motorFWD(LEFT, 10);
-        motorFWD(RIGHT, 30);
+        motorFWD(MOT_LEFT, 10);
+        motorFWD(MOT_RIGHT, 30);
     }
 
     if (trackArry[1] < NERO) // Gira sinistra
     {
-        motorFWD(LEFT, 20);
-        motorFWD(RIGHT, 30);
+        motorFWD(MOT_LEFT, 20);
+        motorFWD(MOT_RIGHT, 30);
     } 
 
     if (trackArry[3] < NERO) // Gira destra
     {
-        motorFWD(RIGHT, 20);
-        motorFWD(LEFT, 30);
+        motorFWD(MOT_RIGHT, 20);
+        motorFWD(MOT_LEFT, 30);
     }
 
     if (trackArry[4] < NERO) // Gira destra di più
     {
-        motorFWD(RIGHT, 10);
-        motorFWD(LEFT, 30);
+        motorFWD(MOT_RIGHT, 10);
+        motorFWD(MOT_LEFT, 30);
     }
 }

@@ -5,6 +5,9 @@
  * PINS
  */
 
+#ifndef _DEFINES_H_
+#define _DEFINES_H_
+
 // Motori
 #define AIN1                A0     // Motore L avanti
 #define AIN2                A1     // Motore L indietro
@@ -15,15 +18,15 @@
 #define PWM_R               5      // Pin di comando potenza motore R
 
 // Ultrasonar
-#define ECHO 2
-#define TRIG 3
+#define ECHO                2
+#define TRIG                3
 
 // Trackers
-#define TS_CLOCK 13
-#define TS_ADDR 12
-#define TS_DATAOUT 11
-#define TS_CS 10
-#define N_TRACKERS 5
+#define TS_CLOCK            13      // Pin di clock
+#define TS_ADDR             12      // Pin di indirizzo
+#define TS_DATAOUT          11      // Pin di dati
+#define TS_CS               10      // Pin del Chip Select
+#define N_TRACKERS          5       // Numero di line trackers
 /*
  * DEFINES:
  *
@@ -49,8 +52,10 @@
  * ALTRO
 */
 
-#define LEFT 0
-#define RIGHT 1
+#define MOT_LEFT        0
+#define MOT_RIGHT       1
 
-#define OLED_RESET 9    // OLED display reset pin
-#define OLED_SA0   8    // OLED display set pin
+#define OLED_RESET      9    // OLED display reset pin
+#define OLED_SA0        8    // OLED display set pin
+
+#endif
