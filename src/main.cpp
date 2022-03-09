@@ -35,37 +35,29 @@
 */
 
 
-/*
- *
- * INCLUDES
- *
- */
+/***************
+    INCLUDES
+***************/
 
-#include <Arduino.h>
-#include "defines.h"
-#include "comandi.h"
+#include "headers.h"
+#include "motore.h"
 #include "altre.h"
 #include "timerAVR.h"
-#include "Adafruit_SSD1306.h"
 
+
+
+/***************
+    OGGETTI /
+    VARIABILI
+***************/
 TimerAVR timer1;
 uint16_t trackArry[N_TRACKERS];
-Adafruit_SSD1306 display(OLED_RESET, OLED_SA0);
 
-#define NERO 450
 
-/***************************************
- * NOTA:
- * 
- * I pin dell'Oled sono quelli dell'I2C
- * 
- * SDA -> pin 17
- * 
- * SCL -> pin 18
- * 
- * DA SISTEMARE IL PROGRAMMA SAPENDO CIO'
- * 
- ***************************************/
+
+/**************
+    SETUP
+**************/
 
 void setup() 
 {
@@ -73,56 +65,87 @@ void setup()
     setupUltra();
     setupTrackers();
 
-    Serial.begin (9600);
+    Serial.begin(9600);
 
-    Wire.begin();
-    display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
-    display.clearDisplay();
-    display.setTextSize(2);
-    display.setTextColor(WHITE);
-    display.setCursor(15,20);
-    display.println("Robotica");
-    display.display();
-    delay(5000);
-    display.clearDisplay();
+    int led_col[N_LED][3] = {
+        {255, 255, 255},    // Primo led
+        {255, 255, 255},    // Secondo led
+        {255, 255, 255},    // Terzo led
+        {255, 255, 255}     // Quarto led
+    };
+
+    setLEDS(led_col, 128);
 }
+
+
+
+/*************
+    LOOP
+*************/
 
 void loop() 
 {
     readAllTrackers(trackArry);
 
-    /*for (uint8_t i = 0; i < N_TRACKERS; i++)
+    // Se la seriale attiva stampa i log altrimenti no ==> Rallenta il funzionamento
+    if (Serial)
     {
-        Serial.print("Tracker "); Serial.print(i + 1); Serial.print(": "); Serial.println(trackArry[i]);
-    }*/
+        for (uint8_t i = 0; i < N_TRACKERS; i++)
+        {
+            Serial.print("Tracker "); Serial.print(i + 1); Serial.print(": "); Serial.println(trackArry[i]);
+        }
+    }
+    
 
-    if (trackArry[2] < NERO)
+    if (trackArry[2] < NERO && trackArry[4] > NERO && trackArry[3] > NERO && trackArry[4] > NERO && trackArry[1] > NERO && trackArry[0] > NERO)
     {
         int distanceCM = DistanceUltra();
-        Serial.print ("Sensore Ultrasuoni: "); Serial.print(distanceCM); Serial.println ("cm");
+        
+        if (Serial)
+        {
+            Serial.print ("Sensore Ultrasuoni: "); Serial.print(distanceCM); Serial.println ("cm");
+        }
+            
 
         if (distanceCM < 17)
         {
-            motorBreak_ALL(70);
+            //motorBreak_ALL(70, 1);
+            motorStop_ALL();
             motorFWD(MOT_LEFT, 70);
         }
         else
-            motorFWD_ALL(30);
+            motorFWD_ALL(20);
 
+        
     }
 
-    if (trackArry[0] < NERO && trackArry[1] < NERO) // ANGOLO
+    /*
+    if (trackArry[0] > 700 &&  trackArry[0] > 930 && trackArry[1] > 700 &&  trackArry[1] > 930) // ANGOLO con colore
     {
         motorFWD(MOT_LEFT, 10);
         motorFWD(MOT_RIGHT, 50);
     }
 
-    if (trackArry[4] < NERO && trackArry[3] < NERO) // ANGOLO
+    if (trackArry[3] > 700 &&  trackArry[3] > 930 && trackArry[4] > 700 &&  trackArry[4] > 930) // ANGOLO con colore
     {
         motorFWD(MOT_RIGHT, 10);
         motorFWD(MOT_LEFT, 50);
     }
+    */
 
+
+    if (trackArry[0] < NERO && trackArry[1] < NERO) // ANGOLO no colore
+    {
+        motorFWD(MOT_LEFT, 10);
+        motorFWD(MOT_RIGHT, 50);
+    }
+
+    if (trackArry[4] < NERO && trackArry[3] < NERO) // ANGOLO no colore
+    {
+        motorFWD(MOT_RIGHT, 10);
+        motorFWD(MOT_LEFT, 50);
+    }
+    
     if (trackArry[0] < NERO) // Gira Sinistra di più
     {
         motorFWD(MOT_LEFT, 10);
@@ -146,4 +169,11 @@ void loop()
         motorFWD(MOT_RIGHT, 10);
         motorFWD(MOT_LEFT, 30);
     }
+
+    
+    if (trackArry[4] > NERO && trackArry[3] > NERO && trackArry[2] > NERO && trackArry[1] > NERO && trackArry[0] > NERO)
+    {
+        // TODO: Algoritmo di ricerca della linea nera
+    }
+    
 }
