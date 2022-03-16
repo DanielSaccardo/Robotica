@@ -18,18 +18,19 @@
 
 
     /*!
-        Data la direzione supera l'ostacolo
+        Algoritmo di superamento ostacolo
+
+        @param power 0->255 potenza ai motori
 
         @param direction 0 => Sinistra; 1 => Destra
         
         @param timeToTurn tempo per girare di x°
 
         @param timeToOvertake tempo per superare l'ostacolo
-
-        @param sensors 
-
     */
-    void superaOstacolo(bool direction, int32_t timeToTurn, int32_t timeToOvertake);
+    void superaOstacolo(int16_t power, bool direction, int32_t timeToTurn, int32_t timeToOvertake);
+
+
 
     /*********************
         FUNZIONI PER IL

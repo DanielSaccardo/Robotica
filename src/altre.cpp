@@ -1,48 +1,83 @@
 #include "altre.h"
 
-  void superaOstacolo(bool direction, int32_t timeToTurn, int32_t timeToOvertake)
+  void superaOstacolo(int16_t power, bool direction, int32_t timeToTurn, int32_t timeToOvertake)
   {
     // Retrocede per superare meglio l'ostacolo
-    motorBCK_ALL(20);
+    motorBCK_ALL(power);
     delay(400);
 
     if(direction) // Destra
     {
-      motorBreak_ALL(60, 0);
-
-      motorFWD(MOT_LEFT, 30);
-      motorBCK(MOT_RIGHT, 30);
+      motorBreak_ALL(2*power, 0);
+      motorFWD(MOT_LEFT, power);
+      motorBCK(MOT_RIGHT, power);
       delay(timeToTurn);
       
-      motorBreak_ALL(60, 0);
-
-      motorFWD_ALL(30);
+      motorBreak_ALL(2*power, 0);
+      motorFWD_ALL(power);
       delay(timeToOvertake);
       
-      motorBreak_ALL(60, 0);
-
-      motorFWD(MOT_RIGHT, 30);
-      motorBCK(MOT_LEFT, 30);
+      motorBreak_ALL(2*power, 0);
+      motorFWD(MOT_RIGHT, power);
+      motorBCK(MOT_LEFT, power);
       delay(2.5*timeToTurn);
         
     }
 
     else // Sinistra
     {
-      motorBreak_ALL(60, 0);
-      motorFWD(MOT_RIGHT, 30);
-      motorBCK(MOT_LEFT, 30);
+      motorBreak_ALL(2*power, 0);
+      motorFWD(MOT_RIGHT, power);
+      motorBCK(MOT_LEFT, power);
       delay(timeToTurn);
       
-      motorBreak_ALL(60, 0);
-      motorFWD_ALL(30);
+      motorBreak_ALL(2*power, 0);
+      motorFWD_ALL(power);
       delay(timeToOvertake);
       
-      motorBreak_ALL(60, 0);
-      motorFWD(MOT_LEFT, 30);
-      motorBCK(MOT_RIGHT, 30);
+      motorBreak_ALL(2*power, 0);
+      motorFWD(MOT_LEFT, power);
+      motorBCK(MOT_RIGHT, power);
       delay(2.5*timeToTurn);
     }
+
+    // DA TESTARE QUESTE RIGHE: INIZIO
+    motorBreak_ALL(2*power, 0);
+
+    uint16_t lineSensors[N_TRACKERS];
+
+    motorFWD_ALL(power);
+
+    if (direction) // Destra
+    {
+      do
+      {
+        readAllTrackers(lineSensors);
+      } while (lineSensors[3] > NERO); // Controllo il secondo sensore più a destra IO4, appena trova il nero vuol dire che mi sono ricongiunto
+      
+      motorBreak_ALL(2*power, 0);
+      
+      // Mi raddrizzo
+      motorFWD(MOT_LEFT, power);
+      motorBCK(MOT_RIGHT, power);
+      delay(timeToTurn);
+    }
+
+    else
+    {
+      do
+      {
+        readAllTrackers(lineSensors);
+      } while (lineSensors[1] > NERO); // Controllo il secondo sensore più a sinistra IO2, appena trova il nero vuol dire che mi sono ricongiunto
+      
+      motorBreak_ALL(2*power, 0);
+
+      // Mi raddrizzo
+      motorFWD(MOT_RIGHT, power);
+      motorBCK(MOT_LEFT, power);
+      delay(timeToTurn);
+    }
+    // DA TESTARE QUESTE RIGHE: FINE
   }
 
   /*********************

@@ -66,13 +66,14 @@ void setup()
     setupTrackers();
 
     Serial.begin(9600);
+
 /*
     int led_col[N_LED][3] = {
-        {255, 255, 255},    // Primo led
-        {255, 255, 255},    // Secondo led
-        {255, 255, 255},    // Terzo led
-        {255, 255, 255}     // Quarto led
-    };*/
+        {255, 0, 0},    // Primo led: ROSSO
+        {255, 255, 255},    // Secondo led: BIANCO
+        {255, 255, 255},    // Terzo led: BIANCO
+        {0, 255, 0}     // Quarto led: VERDE
+    };
 
     int led_col[N_LED][3] = {
         {0, 0, 0},    // Primo led
@@ -81,7 +82,7 @@ void setup()
         {0, 0, 0}    // Quarto led
     };
 
-    setLEDS(led_col, 255);
+    setLEDS(led_col, 255);*/
 }
 
 
@@ -111,49 +112,120 @@ void loop()
         }
          */
 
-        superaOstacolo(MOT_RIGHT, 250, 1750);
+        superaOstacolo(30, MOT_RIGHT, 250, 1750);
+        return;
     }
     else
     {
         if (trackArry[2] < NERO && trackArry[4] > NERO && trackArry[3] > NERO && trackArry[4] > NERO && trackArry[1] > NERO && trackArry[0] > NERO)
         {
+            int led_col[N_LED][3] = {
+                {0, 0, 0},    // Primo led
+                {0, 0, 0},    // Secondo led
+                {0, 0, 0},    // Terzo led
+                {0, 0, 0}    // Quarto led
+            };
+
+            setLEDS(led_col, 255);
+            
             motorFWD_ALL(20);
+            return;
         }
 
-        else if (trackArry[0] < NERO && trackArry[1] < NERO) // ANGOLO no colore
+        else if (trackArry[0] < NERO && trackArry[1] < NERO) // ANGOLO => Destra
         {
+            int led_col[N_LED][3] = {
+                {0, 0, 0},    // Primo led
+                {0, 0, 0},    // Secondo led
+                {0, 255, 0},    // Terzo led
+                {0, 255, 0}    // Quarto led
+            };
+
+            setLEDS(led_col, 255);
+            
             motorFWD(MOT_LEFT, 10);
             motorFWD(MOT_RIGHT, 50);
+            return;
         }
 
-        else if (trackArry[4] < NERO && trackArry[3] < NERO) // ANGOLO no colore
+        else if (trackArry[4] < NERO && trackArry[3] < NERO) // ANGOLO => Sinistra
         {
+            int led_col[N_LED][3] = {
+                {0, 255, 0},    // Primo led
+                {0, 255, 0},    // Secondo led
+                {0, 0, 0},    // Terzo led
+                {0, 0, 0}    // Quarto led
+            };
+
+            setLEDS(led_col, 255);
+
             motorFWD(MOT_RIGHT, 10);
             motorFWD(MOT_LEFT, 50);
+            return;
         }
 
-        else if (trackArry[0] < NERO) // Gira Sinistra di più
+        else if (trackArry[0] < NERO) // GIRA => Sinistra con maggiore potenza 
         {
+            int led_col[N_LED][3] = {
+                {0, 0, 0},    // Primo led
+                {0, 0, 0},    // Secondo led
+                {0, 0, 0},    // Terzo led
+                {0, 255, 0}    // Quarto led
+            };
+
+            setLEDS(led_col, 255);
+
             motorFWD(MOT_LEFT, 10);
             motorFWD(MOT_RIGHT, 30);
+            return;
         }
 
-        else if (trackArry[1] < NERO) // Gira sinistra
+        else if (trackArry[1] < NERO) // GIRA => Sinistra
         {
+            int led_col[N_LED][3] = {
+                {0, 0, 0},    // Primo led
+                {0, 0, 0},    // Secondo led
+                {0, 255, 0},    // Terzo led
+                {0, 0, 0}    // Quarto led
+            };
+
+            setLEDS(led_col, 255);
+
             motorFWD(MOT_LEFT, 20);
             motorFWD(MOT_RIGHT, 30);
+            return;
         } 
 
-        else if (trackArry[3] < NERO) // Gira destra
+        else if (trackArry[3] < NERO) // GIRA => Destra
         {
+            int led_col[N_LED][3] = {
+                {0, 0, 0},    // Primo led
+                {0, 255, 0},    // Secondo led
+                {0, 0, 0},    // Terzo led
+                {0, 0, 0}    // Quarto led
+            };
+
+            setLEDS(led_col, 255);
+
             motorFWD(MOT_RIGHT, 20);
             motorFWD(MOT_LEFT, 30);
+            return;
         }
 
-        else if (trackArry[4] < NERO) // Gira destra di più
+        else if (trackArry[4] < NERO) // GIRA => Destra con maggiore potenza 
         {
+            int led_col[N_LED][3] = {
+                {0, 255, 0},    // Primo led
+                {0, 0, 0},    // Secondo led
+                {0, 0, 0},    // Terzo led
+                {0, 0, 0}    // Quarto led
+            };
+
+            setLEDS(led_col, 255);
+
             motorFWD(MOT_RIGHT, 10);
             motorFWD(MOT_LEFT, 30);
+            return;
         }
     }
        
