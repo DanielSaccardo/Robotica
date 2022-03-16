@@ -14,8 +14,22 @@
     #include <Wire.h>
     #include "Adafruit_GFX.h"
     #include "Adafruit_NeoPixel.h"
+    #include "motore.h"
 
-    
+
+    /*!
+        Data la direzione supera l'ostacolo
+
+        @param direction 0 => Sinistra; 1 => Destra
+        
+        @param timeToTurn tempo per girare di x°
+
+        @param timeToOvertake tempo per superare l'ostacolo
+
+        @param sensors 
+
+    */
+    void superaOstacolo(bool direction, int32_t timeToTurn, int32_t timeToOvertake);
 
     /*********************
         FUNZIONI PER IL

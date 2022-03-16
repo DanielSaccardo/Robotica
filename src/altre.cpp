@@ -1,6 +1,49 @@
 #include "altre.h"
 
-    
+  void superaOstacolo(bool direction, int32_t timeToTurn, int32_t timeToOvertake)
+  {
+    // Retrocede per superare meglio l'ostacolo
+    motorBCK_ALL(20);
+    delay(400);
+
+    if(direction) // Destra
+    {
+      motorBreak_ALL(60, 0);
+
+      motorFWD(MOT_LEFT, 30);
+      motorBCK(MOT_RIGHT, 30);
+      delay(timeToTurn);
+      
+      motorBreak_ALL(60, 0);
+
+      motorFWD_ALL(30);
+      delay(timeToOvertake);
+      
+      motorBreak_ALL(60, 0);
+
+      motorFWD(MOT_RIGHT, 30);
+      motorBCK(MOT_LEFT, 30);
+      delay(2.5*timeToTurn);
+        
+    }
+
+    else // Sinistra
+    {
+      motorBreak_ALL(60, 0);
+      motorFWD(MOT_RIGHT, 30);
+      motorBCK(MOT_LEFT, 30);
+      delay(timeToTurn);
+      
+      motorBreak_ALL(60, 0);
+      motorFWD_ALL(30);
+      delay(timeToOvertake);
+      
+      motorBreak_ALL(60, 0);
+      motorFWD(MOT_LEFT, 30);
+      motorBCK(MOT_RIGHT, 30);
+      delay(2.5*timeToTurn);
+    }
+  }
 
   /*********************
       FUNZIONI PER IL

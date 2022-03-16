@@ -104,7 +104,7 @@
 
         @param power 0->255 potenza di frenata
 
-        @param direction 1 Stavo andando avanti; 2 Stavo retrocedendo
+        @param direction 0 Stavo andando avanti; 1 Stavo retrocedendo
     */
     void motorBreak(bool side, byte power, bool direction);
 
@@ -114,7 +114,7 @@
 
         @param power 0->255 potenza di frenata
 
-        @param direction 1 Stavo andando avanti; 2 Stavo retrocedendo
+        @param direction 0 Stavo andando avanti; 1 Stavo retrocedendo
     */
     void motorBreak_ALL(byte power, bool direction);
 

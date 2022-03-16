@@ -48,6 +48,6 @@
 
     #define MOT_LEFT        0
     #define MOT_RIGHT       1
-    #define NERO            450     // Valore al di sotto del quale si considera il nero
+    #define NERO            650     // Valore al di sotto del quale si considera il nero
 
 #endif
