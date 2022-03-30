@@ -104,7 +104,7 @@ void loop()
         }
     }*/
     
-    if (DistanceUltra() < 10)
+    if (DistanceUltra() < 17)
     {
         /* if (Serial)
         {
@@ -112,33 +112,66 @@ void loop()
         }
          */
 
-        superaOstacolo(30, MOT_RIGHT, 250, 1750);
+        //superaOstacolo(30, MOT_RIGHT, 250, 1750);
+        motorStop_ALL();
         return;
     }
     else
     {
-        if (trackArry[2] < NERO && trackArry[4] > NERO && trackArry[3] > NERO && trackArry[4] > NERO && trackArry[1] > NERO && trackArry[0] > NERO)
+        if (trackArry[2] < NERO && trackArry[3] > NERO && trackArry[4] > NERO && trackArry[0] > NERO && trackArry[1] > NERO) // Solo linea nera
         {
             int led_col[N_LED][3] = {
                 {0, 0, 0},    // Primo led
-                {0, 0, 0},    // Secondo led
-                {0, 0, 0},    // Terzo led
+                {0, 255, 0},    // Secondo led
+                {0, 255, 0},    // Terzo led
                 {0, 0, 0}    // Quarto led
             };
 
             setLEDS(led_col, 255);
             
-            motorFWD_ALL(20);
+            motorFWD_ALL(MOT_POT);
             return;
         }
 
-        else if (trackArry[0] < NERO && trackArry[1] < NERO) // ANGOLO => Destra
+        else if (trackArry[2] < NERO && trackArry[3] < NERO && trackArry[4] < NERO && trackArry[0] < NERO && trackArry[1] < NERO) // Tutti nero
         {
             int led_col[N_LED][3] = {
-                {0, 0, 0},    // Primo led
-                {0, 0, 0},    // Secondo led
+                {0, 255, 0},    // Primo led
+                {0, 255, 0},    // Secondo led
                 {0, 255, 0},    // Terzo led
                 {0, 255, 0}    // Quarto led
+            };
+
+            setLEDS(led_col, 255);
+            
+            motorStop_ALL();
+            
+
+            return;
+        }
+
+        else if (trackArry[2] > NERO && trackArry[4] > NERO && trackArry[3] > NERO && trackArry[1] > NERO && trackArry[0] > NERO) // Bianco
+        {
+            int led_col[N_LED][3] = {
+                {0, 255, 0},    // Primo led
+                {0, 255, 0},    // Secondo led
+                {0, 255, 0},    // Terzo led
+                {0, 255, 0}    // Quarto led
+            };
+
+            setLEDS(led_col, 255);
+            
+            motorFWD_ALL(MOT_POT);
+            return;
+        }
+
+        else if ((trackArry[0] < NERO && trackArry[1] < NERO) || (trackArry[0] < NERO && trackArry[1] < NERO && trackArry[2] < NERO)) // ANGOLO => Sinistra
+        {
+            int led_col[N_LED][3] = {
+                {0, 255, 0},    // Primo led
+                {0, 255, 0},    // Secondo led
+                {0, 0, 0},    // Terzo led
+                {0, 0, 0}    // Quarto led
             };
 
             setLEDS(led_col, 255);
@@ -148,13 +181,13 @@ void loop()
             return;
         }
 
-        else if (trackArry[4] < NERO && trackArry[3] < NERO) // ANGOLO => Sinistra
+        else if ((trackArry[4] < NERO && trackArry[3] < NERO) || (trackArry[4] < NERO && trackArry[3] < NERO && trackArry[2] < NERO)) // ANGOLO => Destra
         {
             int led_col[N_LED][3] = {
-                {0, 255, 0},    // Primo led
-                {0, 255, 0},    // Secondo led
-                {0, 0, 0},    // Terzo led
-                {0, 0, 0}    // Quarto led
+                {0, 0, 0},    // Primo led
+                {0, 0, 0},    // Secondo led
+                {0, 255, 0},    // Terzo led
+                {0, 255, 0}    // Quarto led
             };
 
             setLEDS(led_col, 255);

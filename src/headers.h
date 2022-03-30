@@ -49,5 +49,5 @@
     #define MOT_LEFT        0
     #define MOT_RIGHT       1
     #define NERO            650     // Valore al di sotto del quale si considera il nero
-
+    #define MOT_POT         35      // Potenza motori (maggiore di 20)
 #endif
